@@ -19,6 +19,7 @@
   "homepage": "https://github.com/tmk0613/InstaDaily#readme",
   "dependencies": {
     "@line/bot-sdk": "^6.0.1",
+    "dotenv": "^5.0.1",
     "express": "^4.16.3"
   }
 }
