@@ -6,8 +6,9 @@
 - Sunday night, send a push message weekly records.
 - Every night, send a push message suggesting recording.
 ### Todo
-- [ ] Connect to database.
-- [ ] Store data that daily things in database.
-- [ ] Store data with date, weather and so on.
-- [ ] Schedule sending weekly push message.
-- [ ] Schedule sending every Sunday push message.
+- [x] Repeating someone's words that are sent messages.
+- [ ] Connecting to database.
+- [ ] Storing data that daily things in database.
+- [ ] Storing data with date, weather and so on.
+- [ ] Scheduling sending weekly push message.
+- [ ] Scheduling sending every Sunday push message.
