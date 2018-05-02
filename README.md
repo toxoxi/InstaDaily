@@ -9,6 +9,7 @@
 - [x] Repeat someone's words that are sent messages.
 - [x] Connect to database.
 - [x] Store data that daily things in database.
-- [ ] Store data with date, weather and so on.
-- [ ] Schedule sending weekly push message.
-- [ ] Schedule sending every Sunday push message.
+- [x] Store data with date, weather and so on.
+- [ ] Schedule sending everyday notify.
+- [ ] Schedule sending every Sunday push message which summarize weekly events.
+- [ ] Reply the diary of the date specified by the user.
