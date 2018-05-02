@@ -39,7 +39,6 @@ const handleEvent = event => {
   // DB登録処理
   storeData(event)
     .then(res => {
-      console.log('res: ' + res)
       return client.replyMessage(event.replyToken, {
         type: 'text',
         text: event.message.text //実際に返信の言葉を入れる箇所
