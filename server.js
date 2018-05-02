@@ -7,7 +7,7 @@ const mongoClient = require('mongodb').MongoClient;
 const moment = require('moment');
 
 const PORT = process.env.PORT || 3000;
-const mongoUrl = `mongodb://localhost:27017/db`;
+const mongoUrl = 'mongodb://localhost:27017/db';
 const ACCESS_TOKEN = process.env.NODE_ACCESS_TOKEN;
 const SECRET = process.env.NODE_SECRET;
 
@@ -83,8 +83,8 @@ const storeData = event => {
       db.collection('data', (err, collection) => {
         if (err) { return console.error(err); }
 
-        const userId = event.source.userId,
-              userName = event.source.userName,
+        const ID = event.source.userId,
+              name = event.source.userName,
               sentense = event.message.text,
               weather = event.weather,
               date = moment(event.timestamp),
@@ -94,22 +94,7 @@ const storeData = event => {
               time = date.format('HH:mm');
               
         // tmp
-        const docs = [
-          {
-            ID: userId,
-            name: userName,
-            // place: 'Tokyo',
-            contents: {
-              [year]: {
-                [month]: {
-                  [day]: {
-                    sentense, weather
-                  }
-                }
-              }
-            }
-          }
-        ];
+        const docs = [{ ID, name, year, month, day, time, weather, sentense }];
         collection.insert(docs, (err, result) => {
           // エラー処理
           if (err) { return console.dir(err); }
