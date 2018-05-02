@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const line = require('@line/bot-sdk');
 const mongoClient = require('mongodb').MongoClient;
+const moment = require('moment');
 
 const PORT = process.env.PORT || 3000;
 const mongoUrl = `mongodb://localhost:27017/db`;
@@ -82,25 +83,29 @@ const storeData = event => {
       db.collection('data', (err, collection) => {
         if (err) { return console.error(err); }
 
-        const userId = event.source.userId;
-        const userName = event.source.userName;
-        const sentense = event.message.text;
-        const weather = event.weather;
+        const userId = event.source.userId,
+              userName = event.source.userName,
+              sentense = event.message.text,
+              weather = event.weather,
+              date = moment(event.timestamp),
+              year = date.format("YYYY"),
+              month = date.format('MM'),
+              day = date.format('DD'),
+              time = date.format('HH:mm');
+              
         // tmp
         const docs = [
           {
             ID: userId,
             name: userName,
             // place: 'Tokyo',
-            diary: {
-              2018: {
-                'May': [
-                  {
-                    date: 2,
-                    content: sentense, 
-                    weather: weather
+            contents: {
+              [year]: {
+                [month]: {
+                  [day]: {
+                    sentense, weather
                   }
-                ]
+                }
               }
             }
           }
