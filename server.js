@@ -7,7 +7,7 @@ const mongoClient = require('mongodb').MongoClient;
 const moment = require('moment');
 
 const PORT = process.env.PORT || 3000;
-const mongoUrl = 'mongodb://localhost:27017/db';
+const mongoUrl = process.env.NODE_MONGODB_URL;
 const ACCESS_TOKEN = process.env.NODE_ACCESS_TOKEN;
 const SECRET = process.env.NODE_SECRET;
 
