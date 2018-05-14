@@ -27,6 +27,8 @@ const LogSchema = new Schema({
 
 // スキーマからモデルの作成
 mongoose.model('Log', LogSchema);
+console.log(mongoUrl);
+mongoose.connect(mongoUrl);
 
 const app = express();
 const client = new line.Client(config);
@@ -84,8 +86,6 @@ const handleEvent = event => {
 
 const storeData = event => {
   return new Promise((resolve, reject) => {
-    mongoose.connect(mongoUrl);
-
     const Log = mongoose.model('Log');
     const log = new Log();
 
