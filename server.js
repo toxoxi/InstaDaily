@@ -3,7 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const line = require('@line/bot-sdk');
-const mongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 const moment = require('moment');
 
 const PORT = process.env.PORT || 3000;
@@ -15,6 +15,18 @@ const config = {
     channelAccessToken: ACCESS_TOKEN,
     channelSecret: SECRET
 };
+
+const Schema = mongoose.Schema;
+const LogSchema = new Schema({
+  ID: String,
+  name: String,
+  date: { type: Date, default: Date.now },
+  weather: String,
+  sentense: String
+});
+
+// スキーマからモデルの作成
+mongoose.model('Log', LogSchema);
 
 const app = express();
 const client = new line.Client(config);
@@ -72,40 +84,23 @@ const handleEvent = event => {
 
 const storeData = event => {
   return new Promise((resolve, reject) => {
-    mongoClient.connect(mongoUrl, (err, client) => {
-      console.log('connected')
-      // エラー処理
-      if (err) { 
-        console.error(err);
-        reject(err);
-      }
-      const db = client.db('InstaDaily');
-      db.collection('data', (err, collection) => {
-        if (err) { return console.error(err); }
+    mongoose.connect(mongoUrl);
 
-        const ID = event.source.userId,
-              name = event.source.userName,
-              sentense = event.message.text,
-              weather = event.weather,
-              date = moment(event.timestamp),
-              year = date.format("YYYY"),
-              month = date.format('MM'),
-              day = date.format('DD'),
-              time = date.format('HH:mm');
-              
-        // tmp
-        const docs = [{ ID, name, year, month, day, time, weather, sentense }];
-        collection.insert(docs, (err, result) => {
-          // エラー処理
-          if (err) { return console.dir(err); }
-        });
+    const Log = mongoose.model('Log');
+    const log = new Log();
 
-        // 検索する
-        collection.find().toArray((err, items) => {
-          console.log(items);
-        });
-        resolve();
+    log.ID = event.source.userId;
+    log.name = event.source.userName;
+    log.sentense = event.message.text;
+    log.weather = event.weather;
+    log.date = event.timestamp;
+    log.save(err => {
+      if (err) { console.error(err); }
+      Log.find({}, function(err, docs) {
+        console.log(docs);
       });
     });
+
+    resolve();
   });
 };
