@@ -27,7 +27,6 @@ const LogSchema = new Schema({
 
 // スキーマからモデルの作成
 mongoose.model('Log', LogSchema);
-console.log(mongoUrl);
 mongoose.connect(mongoUrl);
 
 const app = express();
@@ -77,9 +76,18 @@ const handleEvent = event => {
   // DB登録処理
   storeData(event)
     .then(res => {
+      const m = moment(res.date);
+      const logDate = m.format('YYYY/MM/DD');
+
       return client.replyMessage(event.replyToken, {
         type: 'text',
-        text: event.message.text //実際に返信の言葉を入れる箇所
+        text: `【${logDate}】\n${res.sentense}`
+      });
+    })
+    .catch(err => {
+      return client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: `Error: ${err}`
       });
     });
 }
@@ -95,12 +103,26 @@ const storeData = event => {
     log.weather = event.weather;
     log.date = event.timestamp;
     log.save(err => {
-      if (err) { console.error(err); }
-      Log.find({}, function(err, docs) {
-        console.log(docs);
+      if (err) {
+        console.error(err);
+        reject(err);
+      }
+
+      // ログの数を取得
+      Log.count().exec((err, count) => {
+        // 乱数生成
+        const random = Math.floor(Math.random() * count)
+
+        // ランダムなレコードを取得
+        Log.findOne().skip(random).exec((err, result) => {
+            if (err) {
+              console.error(err);
+              reject(err);
+            }
+            console.log(result);
+            resolve(result);
+          });
       });
     });
-
-    resolve();
   });
 };
