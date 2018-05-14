@@ -14,3 +14,5 @@
 - [ ] Schedule sending everyday notify.
 - [ ] Schedule sending every Sunday push message which summarize weekly events.
 - [ ] Reply the diary of the date specified by the user.
+
+#### Please send me a message if you want to add this LINE bot as your friends
