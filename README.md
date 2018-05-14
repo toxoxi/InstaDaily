@@ -1,5 +1,5 @@
 # InstaDaily
-### This is LINE bot to record daily things.
+### This is LINE bot to record daily.
 *Features are planned*
 - Talk daily things to the bot, record it with date, weather and so on.
 - When recording, randomly reply past records.
@@ -10,6 +10,7 @@
 - [x] Connect to database.
 - [x] Store data that daily things in database.
 - [x] Store data with date, weather and so on.
+- [x] LINE bot returns random message from record of database.
 - [ ] Schedule sending everyday notify.
 - [ ] Schedule sending every Sunday push message which summarize weekly events.
 - [ ] Reply the diary of the date specified by the user.
